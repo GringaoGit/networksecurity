@@ -1,0 +1,116 @@
+﻿	###################
+	### Sevrer DHCP ###
+	###################
+
+genou		192.168.10.201
+talon		192.168.10.202
+
+
+	##################
+	### Server DNS ###
+	##################
+
+coude		192.168.10.211
+doigt		192.168.10.212
+
+
+	####################
+	### Serveur LDAP ###
+	####################
+
+nez		192.168.10.221
+oreille		192.168.10.222
+
+
+	###################
+	### Serveur WEB ###
+	###################
+
+bouche		192.168.10.231
+levre		192.168.10.232
+
+
+	####################
+	### Serveur MAIL ###
+	####################
+
+joue		192.168.10.233
+langue		192.168.10.234
+
+
+	###################
+	### Client LDAP ###
+	###################
+
+epaule		192.168.10.X
+jambe		192.168.10.X
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+snmpd.conf
+
+# This file controls the activity of snmpd and snmptrapd
+
+# MIB directories.  /usr/share/snmp/mibs is the default, but
+# including it here avoids some strange problems.
+export MIBDIRS=/usr/share/snmp/mibs
+
+# snmpd control (yes means start daemon).
+SNMPDRUN=yes
+
+# snmpd options (use syslog, close stdin/out/err).
+SNMPDOPTS='-Lsd -Lf /dev/null -u snmp -g snmp -I -smux -p /var/run/snmpd.pid '
+
+# snmptrapd control (yes means start daemon).  As of net-snmp version
+# 5.0, master agentx support must be enabled in snmpd before snmptrapd
+# can be run.  See snmpd.conf(5) for how to do this.
+TRAPDRUN=no
+
+# snmptrapd options (use syslog).
+TRAPDOPTS='-Lsd -p /var/run/snmptrapd.pid'
+
+# create symlink on Debian legacy location to official RFC path
+SNMPDCOMPAT=yes
+
+# Alerte pour le disque dur :
+disk / 10000
+
+rocommunity  public # public à remplacer par sa communauté
+syslocation  hostname
+syscontact  admin@human.body
+
+
+
+
+auto eth0
+iface eth0 inet static
+        address 192.168.0.211
+        netmask 255.255.255.0
+        gateway 192.168.0.1
+        dns-search human.body
+        dns-nameservers 192.168.0.211 192.168.0.212
+
+
+
+
+
+named -u bind -d9 -g -c /etc/bind/named.conf
+
+named-checkconf -z
+
+
+
+

