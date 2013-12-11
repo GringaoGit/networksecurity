@@ -34,7 +34,7 @@ with open("sniffed", "a") as f:
 
 while 1 :
 	found = sniff(filter=my_filter, count=1)
-	print found
+    print found
 	print "### cool ### happy ###"
 	with open("sniffed", "a") as f:
 		f.write("{} \n\n".format(found))
