@@ -1,5 +1,6 @@
 #!/bin/sh
 # Automation create of certificat
+# Usage : ./scriptcreationcertificat.sh domain.com
 
 domain = $1
 echo $1.csr
