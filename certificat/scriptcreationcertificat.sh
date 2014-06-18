@@ -3,13 +3,15 @@
 # Usage : ./scriptcreationcertificat.sh domain.com
 
 domain = $1
-echo $1.csr
+
 # Creation of private key
 # openssl genrsa -out masterca.key 2048
 openssl genrsa -des3 -out masterca.key 2048
+echo "Master Key generate"
 
 # Creation of csr
 openssl req -new -key masterca.key -out $1.csr
+echo "Csr create"
 
 # Testing csr
 openssl req -noout -text -in $1.csr
