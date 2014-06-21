@@ -8,12 +8,12 @@ import sys
 import prettytable
 import argparse
 import logging
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR) #This is supress scapy warnings
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
-#conf.iface='eth0' # network interface to use
-conf.verb=0 # enable verbose mode - Is this actually working?
+#conf.iface='eth0'
+conf.verb=0
 conf.nofilter=1
 
 def tcp_connect_scan(dst_ip,dst_port,dst_timeout):
@@ -145,12 +145,12 @@ def start(your_target,your_ports,your_timeout):
     user_dst_ip = your_target
     port_list = your_ports
     user_dst_timeout = your_timeout
-    
+
     print "[+] Target : %s\n" % user_dst_ip
     print "[+] Port(s) : %s\n" % port_list
     print "[+] TimeOut : %s\n" % your_timeout
     print "[*] Scan started\n"
-    
+
     for i in port_list:
         tcp_connect_scan_res = tcp_connect_scan(user_dst_ip,int(i),int(user_dst_timeout))
         stealth_scan_res = stealth_scan(user_dst_ip,int(i),int(user_dst_timeout))
@@ -220,13 +220,13 @@ def main():
             pr_item2 = int(pr[1])+1
             new_pr = range(pr_item1,pr_item2,1)
             ports += new_pr
-    
+
     timeout = int( args.t)
-    
+
     if(not len(ports)>0):
             print "No ports specified.\nUse -h or --help to see the help menu"
             exit(0)
-    
+
     ports = list(set(ports))
     new_ports=[]
     for item in ports:
@@ -235,6 +235,6 @@ def main():
     ports.sort()
 
     start(target,ports,timeout)
-    
+
 if __name__ == "__main__":
     main()
