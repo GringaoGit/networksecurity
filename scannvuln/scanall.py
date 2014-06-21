@@ -147,6 +147,8 @@ def start(your_target,your_ports,your_timeout):
     user_dst_timeout = your_timeout
     
     print "[+] Target : %s\n" % user_dst_ip
+    print "[+] Port(s) : %s\n" % port_list
+    print "[+] TimeOut : %s\n" % your_timeout
     print "[*] Scan started\n"
     
     for i in port_list:
