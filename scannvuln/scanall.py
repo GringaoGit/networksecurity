@@ -8,12 +8,12 @@ import sys
 import prettytable
 import argparse
 import logging
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+logging.getLogger("scapy.runtime").setLevel(logging.DEBUG)
 
 from scapy.all import *
 
 #conf.iface='eth0'
-conf.verb=0
+conf.verb=1
 conf.nofilter=1
 
 def tcp_connect_scan(dst_ip,dst_port,dst_timeout):
@@ -162,9 +162,7 @@ def start(your_target,your_ports,your_timeout):
         udp_scan_res = udp_scan(user_dst_ip,int(i),int(user_dst_timeout))
         x.add_row([i,tcp_connect_scan_res,stealth_scan_res,xmas_scan_res,fin_scan_res,null_scan_res,ack_flag_scan_res,window_scan_res,udp_scan_res])
     print x
-
     print "\n[*] Scan completed\n"
-
 
 def banner():
     bannerTxt = """                                
