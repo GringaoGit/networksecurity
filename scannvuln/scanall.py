@@ -8,7 +8,7 @@ import sys
 import prettytable
 import argparse
 import logging
-logging.getLogger("scapy.runtime").setLevel(logging.DEBUG)
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
