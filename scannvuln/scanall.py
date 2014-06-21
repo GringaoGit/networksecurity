@@ -165,7 +165,14 @@ def start(your_target,your_ports,your_timeout):
     print "\n[*] Scan completed\n"
 
 def banner():
-    bannerTxt = """                                
+    bannerTxt = """
+  ________       __                             
+ /  _____/______|__| ____    _________    ____  
+/   \  __\_  __ \  |/    \  / ___\__  \  /  _ \ 
+\    \_\  \  | \/  |   |  \/ /_/  > __ \(  <_> )
+ \______  /__|  |__|___|  /\___  (____  /\____/ 
+        \/              \//_____/     \/      
+
 Multi-Ways Scanning :D
    	"""
     print bannerTxt
