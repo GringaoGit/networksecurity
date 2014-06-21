@@ -1,0 +1,7 @@
+RoadMap Scanner De Vulns Sys & Network
+
+Fonctions de base :
+- Scanner de ports args ou file
+- Identification de vulns connues sur FTP / SSH / HTTP / HTTPS / DNS (& autres ?)
+- Rapport de logs
+
