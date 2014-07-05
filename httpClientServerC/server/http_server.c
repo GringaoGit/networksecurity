@@ -10,6 +10,14 @@
 #define MY_PORT		9999
 #define MAXBUF		1024
 
+char response[] = "HTTP/1.1 200 OK\r\n"	
+	"Content-Type: text/html; charset=UTF-8\r\n\r\n"
+	"<doctype !html><html><head><title>Bye-bye baby bye-bye</title>"
+	"<style>body { background-color: #111 }"
+	"h1 { font-size:4cm; text-align: center; color: black;"
+	" text-shadow: 0 0 2mm red}</style></head>"
+	"<body><h1>Goodbye, world!</h1></body></html>\r\n";
+
 int main(int Count, char *Strings[])
 {   int sockfd;
 	struct sockaddr_in self;
@@ -80,7 +88,7 @@ int onData(int clientfd){
 	} else {
 		printf("Data received : %s", buffer);
 		/*---Echo back anything sent---*/
-		send(clientfd, buffer, MAXBUF, 0);
+		send(clientfd, response, MAXBUF, 0);
 	}
 	
 }
