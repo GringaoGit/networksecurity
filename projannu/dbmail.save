@@ -1,0 +1,19 @@
+apt-get install mysql-server mysql-client
+apt-get install libkrb5-3 krb5-config krb5-user samba winbind ntpdate ntp
+
+#dbmail1
+auto eth0
+iface eth0 inet static
+	address 172.16.1.248
+	netmask 255.255.255.0
+	gateway 172.16.1.254
+	dns-nameservers 172.16.1.1 172.16.1.2
+
+#dbmail2
+auto eth0
+iface eth0 inet static
+	address 172.16.1.247
+	netmask 255.255.255.0
+	gateway 172.16.1.254
+	dns-nameservers 172.16.1.1 172.16.1.2
+

@@ -1,94 +1,171 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/socket.h>
-#include <resolv.h>
 #include <arpa/inet.h>
-#include <errno.h>
+#include <netdb.h>
+#include <signal.h>
+#include <fcntl.h>
 
-#define MY_PORT		9999
-#define MAXBUF		1024
+#define CONNMAX 1000
+#define BYTES 1024
 
-char response[] = "HTTP/1.1 200 OK\r\n"	
-	"Content-Type: text/html; charset=UTF-8\r\n\r\n"
-	"<doctype !html><html><head><title>Esgi Is Here</title>"
-	"<style>body { background-color: #111 }"
-	"h1 { font-size:4cm; text-align: center; color: black;"
-	" text-shadow: 0 0 2mm red}</style></head>"
-	"<body><h1>Hello, world!</h1></body></html>\r\n";
+char *ROOT;
+int listenfd, clients[CONNMAX];
+void error(char *);
+void startServer(char *);
+void respond(int);
 
-int main(int Count, char *Strings[])
-{   int sockfd;
-	struct sockaddr_in self;
-	char buffer[MAXBUF];
+int main(int argc, char* argv[])
+{
+    struct sockaddr_in clientaddr;
+    socklen_t addrlen;
+    char c;    
+    
+    //Default Values PATH = ~/ and PORT=10000
+    char PORT[6];
+    ROOT = getenv("PWD");
+    strcpy(PORT,"10000");
 
-	/*---Create streaming socket---*/
-    if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 )
-	{
-		perror("Socket");
-		exit(errno);
-	}
+    int slot=0;
 
-	/*---Initialize address/port structure---*/
-	bzero(&self, sizeof(self));
-	self.sin_family = AF_INET;
-	self.sin_port = htons(MY_PORT);
-	self.sin_addr.s_addr = INADDR_ANY;
+    //Parsing the command line arguments
+    while ((c = getopt (argc, argv, "p:r:")) != -1)
+        switch (c)
+        {
+            case 'r':
+                ROOT = malloc(strlen(optarg));
+                strcpy(ROOT,optarg);
+                break;
+            case 'p':
+                strcpy(PORT,optarg);
+                break;
+            case '?':
+                fprintf(stderr,"Wrong arguments given!!!\n");
+                exit(1);
+            default:
+                exit(1);
+        }
+    
+    printf("Server started at port no. %s%s%s with root directory as %s%s%s\n","\033[92m",PORT,"\033[0m","\033[92m",ROOT,"\033[0m");
+    // Setting all elements to -1: signifies there is no client connected
+    int i;
+    for (i=0; i<CONNMAX; i++)
+        clients[i]=-1;
+    startServer(PORT);
 
-	/*---Assign a port number to the socket---*/
-    if ( bind(sockfd, (struct sockaddr*)&self, sizeof(self)) != 0 )
-	{
-		perror("socket--bind");
-		exit(errno);
-	}
+    // ACCEPT connections
+    while (1)
+    {
+        addrlen = sizeof(clientaddr);
+        clients[slot] = accept (listenfd, (struct sockaddr *) &clientaddr, &addrlen);
 
-	/*---Make it a "listening socket"---*/
-	if ( listen(sockfd, 20) != 0 )
-	{
-		perror("socket--listen");
-		exit(errno);
-	}
+        if (clients[slot]<0)
+            error ("accept() error");
+        else
+        {
+            if ( fork()==0 )
+            {
+                respond(slot);
+                exit(0);
+            }
+        }
 
-	
-	/*---Forever... ---*/
-	while (1)
-	{	int clientfd;
-		struct sockaddr_in client_addr;
-		int addrlen=sizeof(client_addr);
+        while (clients[slot]!=-1) slot = (slot+1)%CONNMAX;
+    }
 
-		/*---accept a connection (creating a data pipe)---*/
-		clientfd = accept(sockfd, (struct sockaddr*)&client_addr, &addrlen);
-		printf("%s:%d connected\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-
-
-		onData(clientfd);
-	
-
-		/*---Close data connection---*/
-		close(clientfd);
-	}
-
-	/*---Clean up (should never get here!)---*/
-	close(sockfd);
-	return 0;
+    return 0;
 }
 
+//start server
+void startServer(char *port)
+{
+    struct addrinfo hints, *res, *p;
 
-int onData(int clientfd){
-	
-	char buffer[MAXBUF];
-	
-	memset(buffer, 0, MAXBUF);
-	
-	
-	
-	if((read(clientfd, buffer, MAXBUF)) <= 0){
-		printf("Error reading data from client");
-	} else {
-		printf("Data received : %s", buffer);
-		/*---Echo back anything sent---*/
-		send(clientfd, response, MAXBUF, 0);
-	}
-	
+    // getaddrinfo for host
+    memset (&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    if (getaddrinfo( NULL, port, &hints, &res) != 0)
+    {
+        perror ("getaddrinfo() error");
+        exit(1);
+    }
+    // socket and bind
+    for (p = res; p!=NULL; p=p->ai_next)
+    {
+        listenfd = socket (p->ai_family, p->ai_socktype, 0);
+        if (listenfd == -1) continue;
+        if (bind(listenfd, p->ai_addr, p->ai_addrlen) == 0) break;
+    }
+    if (p==NULL)
+    {
+        perror ("socket() or bind()");
+        exit(1);
+    }
+
+    freeaddrinfo(res);
+
+    // listen for incoming connections
+    if ( listen (listenfd, 1000000) != 0 )
+    {
+        perror("listen() error");
+        exit(1);
+    }
+}
+
+//client connection
+void respond(int n)
+{
+    char mesg[99999], *reqline[3], data_to_send[BYTES], path[99999];
+    int rcvd, fd, bytes_read;
+
+    memset( (void*)mesg, (int)'\0', 99999 );
+
+    rcvd=recv(clients[n], mesg, 99999, 0);
+
+    if (rcvd<0)    // receive error
+        fprintf(stderr,("recv() error\n"));
+    else if (rcvd==0)    // receive socket closed
+        fprintf(stderr,"Client disconnected upexpectedly.\n");
+    else    // message received
+    {
+        printf("%s", mesg);
+        reqline[0] = strtok (mesg, " \t\n");
+        if ( strncmp(reqline[0], "GET\0", 4)==0 )
+        {
+            reqline[1] = strtok (NULL, " \t");
+            reqline[2] = strtok (NULL, " \t\n");
+            if ( strncmp( reqline[2], "HTTP/1.1", 8)!=0 && strncmp( reqline[2], "HTTP/1.1", 8)!=0 )
+            {
+                write(clients[n], "HTTP/1.1 400 Bad Request\n", 25);
+            }
+            else
+            {
+                if ( strncmp(reqline[1], "/\0", 2)==0 )
+                    reqline[1] = "/index.html";        //Because if no file is specified, index.html will be opened by default (like it happens in APACHE...
+
+                strcpy(path, ROOT);
+                strcpy(&path[strlen(ROOT)], reqline[1]);
+                printf("file: %s\n", path);
+
+                if ( (fd=open(path, O_RDONLY))!=-1 )    //FILE FOUND
+                {
+                    send(clients[n], "HTTP/1.1 200 OK\n\n", 17, 0);
+                    while ( (bytes_read=read(fd, data_to_send, BYTES))>0 )
+                        write (clients[n], data_to_send, bytes_read);
+                }
+                else    write(clients[n], "HTTP/1.1 404 Not Found\n", 23); //FILE NOT FOUND
+            }
+        }
+    }
+
+    //Closing SOCKET
+    shutdown (clients[n], SHUT_RDWR);         //All further send and recieve operations are DISABLED...
+    close(clients[n]);
+    clients[n]=-1;
 }
