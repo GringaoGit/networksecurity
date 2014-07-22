@@ -2,7 +2,7 @@ import dns.resolver
 import dns.query
 import dns.zone
 
-host = 'infos-hotelbb.com'
+host = 'gringao.fr'
 
 # record A
 answers_IPv4 = dns.resolver.query(host, 'A')
@@ -38,6 +38,8 @@ try:
         print 'MX : ', rdata.exchange, 'has preference', rdata.preference
 except dns.resolver.NoAnswer:
     print "*** No MX record for", host, "***"
+except dns.resolver.NXDOMAIN:
+    print "*** The domain", host, "does not exist ***"
 
 #Record TXT
 try:
@@ -45,3 +47,5 @@ try:
         print txtrecord.to_text()
 except dns.resolver.NoAnswer:
     print "*** No TXT record for", host, "***"
+except dns.resolver.NXDOMAIN:
+    print "*** The domain", host, "does not exist ***"
