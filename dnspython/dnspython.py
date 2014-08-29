@@ -1,6 +1,13 @@
+#! /usr/bin/python
+
+"""
+Licence : BeerWare
+"""
+
 import dns.resolver
 import dns.query
 import dns.zone
+import dns.reversename
 
 host = 'gringao.fr'
 
