@@ -6,11 +6,11 @@ domain = $1
 
 # Creation of private key
 # openssl genrsa -out masterca.key 2048
-openssl genrsa -des3 -out masterca.key 2048
+openssl genrsa -des3 -aes256 -out masterca.key 2048
 echo "Master Key generate"
 
 # Creation of csr
-openssl req -new -key masterca.key -out $1.csr
+openssl req -new -key masterca.key -aes256 -out $1.csr
 echo "Csr create"
 
 # Testing csr

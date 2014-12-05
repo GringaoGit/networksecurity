@@ -9,7 +9,7 @@ import dns.query
 import dns.zone
 import dns.reversename
 
-host = 'gringao.fr'
+host = 'myges.fr'
 
 # record A
 answers_IPv4 = dns.resolver.query(host, 'A')
