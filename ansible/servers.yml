@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: yes
+  user: ubuntu
+  sudo: yes
+  roles:
+    - ubuntu_servers
+
+- hosts: lb
+  gather_facts: yes
+  user: ubuntu
+  sudo: yes
+  roles:
+    - lb
+
+- hosts: db
+  gather_facts: yes
+  user: ubuntu
+  sudo: yes
+  roles:
+    - db
+
+- hosts: web
+  gather_facts: yes
+  user: ubuntu
+  sudo: yes
+  roles:
+    - web

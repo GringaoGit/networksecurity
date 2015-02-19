@@ -1,0 +1,9 @@
+---
+# install base packages
+- include: packages.yml
+
+# change hostname
+- include: hostname.yml
+
+# fichier /etc/hosts
+- include: hosts.yml

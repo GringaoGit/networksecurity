@@ -1,0 +1,17 @@
+- name: add haproxy 1.5 repository
+  apt_repository: repo='ppa:vbernat/haproxy-1.5' state=present
+  register: haproxy_ppa
+
+- name: apt-get update
+  apt: update_cache=yes
+  when: haproxy_ppa.changed
+
+- name: install haproxy
+  apt: name=haproxy state=present
+  register: haproxy_install
+
+- name: enable haproxy
+  shell: sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy && sed -i "s/ENABLED=0/ENABLED=1/g" /etc/init.d/haproxy
+
+- name: configure haproxy.cfg
+  copy: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg

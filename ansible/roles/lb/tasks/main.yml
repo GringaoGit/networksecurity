@@ -1,0 +1,12 @@
+---
+- name: install base packages
+  apt: name={{ item }} state=present
+  with_items: base_packages
+
+# haproxy v1.5
+- include: haproxy.yml
+
+# hearbeat configuration
+- include: heartbeat.yml
+
+

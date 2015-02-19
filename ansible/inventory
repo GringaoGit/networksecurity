@@ -1,0 +1,21 @@
+[lb]
+lb1 ansible_ssh_host=192.168.0.111 hostname_name=lb1 hostname_fqdn=lb1.gringao.fr
+lb2 ansible_ssh_host=192.168.0.113 hostname_name=lb2 hostname_fqdn=lb2.gringao.fr
+[db]
+db1 ansible_ssh_host=192.168.0.112 hostname_name=db1 hostname_fqdn=db1.gringao.fr
+db2 ansible_ssh_host=192.168.0.120 hostname_name=db2 hostname_fqdn=db2.gringao.fr
+db3 ansible_ssh_host=192.168.0.122 hostname_name=db3 hostname_fqdn=db3.gringao.fr
+[web]
+web1 ansible_ssh_host=192.168.0.118 hostname_name=web1 hostname_fqdn=web1.gringao.fr
+web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringao.fr
+[ftp]
+#ftp1 ansible_ssh_host=192.168.0. hostname_name=ftp1 hostname_fqdn=ftp1.gringao.fr
+#ftp2 ansible_ssh_host=192.168.0. hostname_name=ftp2 hostname_fqdn=ftp2.gringao.fr
+[smtp]
+#smtp1 ansible_ssh_host=192.168.0. hostname_name=smtp1 hostname_fqdn=smtp1.gringao.fr
+#smtp2 ansible_ssh_host=192.168.0. hostname_name=smtp2 hostname_fqdn=smtp2.gringao.fr
+[ns]
+#ns1 ansible_ssh_host=192.168.0. hostname_name=ns1 hostname_fqdn=ns1.gringao.fr
+#ns2 ansible_ssh_host=192.168.0. hostname_name=ns2 hostname_fqdn=ns2.gringao.fr
+[honey]
+#honey ansible_ssh_host=192.168.0. hostname_name=honey hostname_fqdn=honey.gringao.fr

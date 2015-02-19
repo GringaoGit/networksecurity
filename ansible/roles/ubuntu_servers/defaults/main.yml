@@ -1,0 +1,20 @@
+---
+packages:
+  - htop
+  - tcpdump
+  - curl
+  - git
+  - vim
+  - telnet
+  - traceroute
+  - anacron
+  - nmap
+  - snmp
+  - ntp
+  - logrotate
+  - sendmail
+
+ubuntu_version: trusty
+
+hostname_fqdn: "{{ansible_fqdn}}"
+hostname_name: "{{hostname_fqdn.split('.').0}}"

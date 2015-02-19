@@ -1,0 +1,13 @@
+mcast eth0 239.0.0.11 694 1 0
+ 
+warntime 4
+deadtime 5
+initdead 15
+keepalive 2
+ 
+#fail over forcé sur le primaire
+auto_failback on
+ 
+#Serveurs du cluster
+node lb1
+node lb2

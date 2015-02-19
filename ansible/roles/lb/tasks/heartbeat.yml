@@ -1,0 +1,11 @@
+- name: configure ha.cf
+  copy: src=ha.cf dest=/etc/ha.d/ha.cf
+
+- name: configure ha.cf
+  copy: src=haresources dest=/etc/ha.d/haresources
+
+- name: configure authkeys
+  copy: src=authkeys dest=/etc/ha.d/authkeys mode=600
+
+- name: start heartbeat
+  shell: /etc/init.d/heartbeat restart

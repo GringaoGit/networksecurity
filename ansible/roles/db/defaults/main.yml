@@ -1,0 +1,7 @@
+---
+packages:
+  - software-properties-common
+  - rsync
+
+
+

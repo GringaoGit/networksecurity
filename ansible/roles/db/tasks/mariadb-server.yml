@@ -1,0 +1,33 @@
+- name: add mariadb key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db
+  sudo: yes
+
+- name: add mariadb repository
+  apt_repository: repo='deb http://mirror6.layerjet.com/mariadb/repo/5.5/ubuntu trusty main' state=present
+  register: mariadbrepo
+
+- name: apt-get update
+  apt: update_cache=yes
+  when: mariadbrepo.changed
+
+- name: install galera
+  apt: name=galera state=present
+  register: galera_install
+
+- name: install mariadb-galera-server
+  apt: name=mariadb-galera-server-5.5 state=present
+  register: mariadb-server_install
+
+- name: configure galera.cnf
+  copy: src=galera.cnf dest=/etc/mysql/conf.d/galera.cnf owner=root group=root
+
+- name: configure debian.cnf
+  copy: src=debian.cnf dest=/etc/mysql/debian.cnf owner=root group=root
+
+- name: creation du cluster
+  shell: service mysql stop && service mysql start --wsrep-new-cluster
+# 'service mysql restart' sur db2 et db3
+# mysql -u root -e 'SELECT VARIABLE_VALUE as "cluster size" FROM INFORMATION_SCHEMA.GLOBAL_STATUS WHERE VARIABLE_NAME="wsrep_cluster_size"'
+# GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.1.%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+# mysql -u root -e "create database testreplication"
+# mysql -u root -e "show databases"
