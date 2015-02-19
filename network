@@ -114,3 +114,5 @@ named-checkconf -z
 
 
 
+allow pair address in openstack :
+neutron port-update <portID> --allowed-address-pairs type=dict list=true mac_address=fa:16:3e:9a:18:9b,ip_address=192.168.1.100/24
