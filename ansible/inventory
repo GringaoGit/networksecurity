@@ -19,3 +19,5 @@ web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringa
 #ns2 ansible_ssh_host=192.168.0. hostname_name=ns2 hostname_fqdn=ns2.gringao.fr
 [honey]
 #honey ansible_ssh_host=192.168.0. hostname_name=honey hostname_fqdn=honey.gringao.fr
+
+# sudo chown -R ubuntu:ubuntu /home/ubuntu
