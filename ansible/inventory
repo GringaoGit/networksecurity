@@ -21,3 +21,7 @@ web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringa
 #honey ansible_ssh_host=192.168.0. hostname_name=honey hostname_fqdn=honey.gringao.fr
 
 # sudo chown -R ubuntu:ubuntu /home/ubuntu
+
+[mail]
+mail-in-1-p1 ansible_ssh_host=192.168.0.126 hostname_name=mail-in-1-p1 hostname_fqdn=mail-in-1-p1.gringao.fr
+mail-in-1-p2 ansible_ssh_host=192.168.0.127 hostname_name=mail-in-1-p2 hostname_fqdn=mail-in-1-p2.gringao.fr

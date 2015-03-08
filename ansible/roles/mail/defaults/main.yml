@@ -1,0 +1,10 @@
+---
+packages:
+  - libgmp10
+  - libperl5.18
+  - libaio1
+  - unzip
+  - pax
+  - sysstat
+  - sqlite3
+  - mysql-client

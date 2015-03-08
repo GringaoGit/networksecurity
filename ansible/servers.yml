@@ -26,3 +26,10 @@
   sudo: yes
   roles:
     - web
+
+- hosts: mail
+  gather_facts: yes
+  user: ubuntu
+  sudo: yes
+  roles:
+    - mail
