@@ -1,13 +1,13 @@
 [lb]
-lb1 ansible_ssh_host=192.168.0.111 hostname_name=lb1 hostname_fqdn=lb1.gringao.fr
-lb2 ansible_ssh_host=192.168.0.113 hostname_name=lb2 hostname_fqdn=lb2.gringao.fr
+#lb1 ansible_ssh_host=192.168.0.111 hostname_name=lb1 hostname_fqdn=lb1.gringao.fr
+#lb2 ansible_ssh_host=192.168.0.113 hostname_name=lb2 hostname_fqdn=lb2.gringao.fr
 [db]
-db1 ansible_ssh_host=192.168.0.112 hostname_name=db1 hostname_fqdn=db1.gringao.fr
-db2 ansible_ssh_host=192.168.0.120 hostname_name=db2 hostname_fqdn=db2.gringao.fr
-db3 ansible_ssh_host=192.168.0.122 hostname_name=db3 hostname_fqdn=db3.gringao.fr
+#db1 ansible_ssh_host=192.168.0.112 hostname_name=db1 hostname_fqdn=db1.gringao.fr
+#db2 ansible_ssh_host=192.168.0.120 hostname_name=db2 hostname_fqdn=db2.gringao.fr
+#db3 ansible_ssh_host=192.168.0.122 hostname_name=db3 hostname_fqdn=db3.gringao.fr
 [web]
-web1 ansible_ssh_host=192.168.0.118 hostname_name=web1 hostname_fqdn=web1.gringao.fr
-web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringao.fr
+#web1 ansible_ssh_host=192.168.0.118 hostname_name=web1 hostname_fqdn=web1.gringao.fr
+#web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringao.fr
 [ftp]
 #ftp1 ansible_ssh_host=192.168.0. hostname_name=ftp1 hostname_fqdn=ftp1.gringao.fr
 #ftp2 ansible_ssh_host=192.168.0. hostname_name=ftp2 hostname_fqdn=ftp2.gringao.fr
@@ -23,5 +23,12 @@ web2 ansible_ssh_host=192.168.0.123 hostname_name=web2 hostname_fqdn=web2.gringa
 # sudo chown -R ubuntu:ubuntu /home/ubuntu
 
 [mail]
-mail-in-1-p1 ansible_ssh_host=192.168.0.126 hostname_name=mail-in-1-p1 hostname_fqdn=mail-in-1-p1.gringao.fr
-mail-in-1-p2 ansible_ssh_host=192.168.0.127 hostname_name=mail-in-1-p2 hostname_fqdn=mail-in-1-p2.gringao.fr
+#mail-in-1-p1 ansible_ssh_host=192.168.0.126 hostname_name=mail-in-1-p1 hostname_fqdn=mail-in-1-p1.gringao.fr
+#mail-in-1-p2 ansible_ssh_host=192.168.0.127 hostname_name=mail-in-1-p2 hostname_fqdn=mail-in-1-p2.gringao.fr
+
+[hadoop]
+namenode ansible_ssh_host=192.168.0.111 hostname_name=namenode hostname_fqdn=namenode.gringao.fr
+secundary-namenode ansible_ssh_host=192.168.0.112 hostname_name=secundary-namenode hostname_fqdn=secundary-namenode.gringao.fr
+node1 ansible_ssh_host=192.168.0.122 hostname_name=node1 hostname_fqdn=node1.gringao.fr
+node2 ansible_ssh_host=192.168.0.123 hostname_name=node2 hostname_fqdn=node2.gringao.fr
+node3 ansible_ssh_host=192.168.0.124 hostname_name=node3 hostname_fqdn=node3.gringao.fr

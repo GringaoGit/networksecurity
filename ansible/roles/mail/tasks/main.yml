@@ -3,5 +3,11 @@
   apt: name={{ item }} state=present
   with_items: packages
 
-# # install mariadb server
-# - include: mariadb-server.yml
+# sudo apt-get remove sendmail-bin
+# mkdir zimbra
+# cd zimbra/
+# wget https://files.zimbra.com/downloads/8.6.0_GA/zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz
+# tar xvf zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz 
+# rm zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz 
+# cd zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116/
+# sudo ./install.sh
