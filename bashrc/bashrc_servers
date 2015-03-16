@@ -48,7 +48,7 @@ PS1=$PS1"${NC}"
 else
 PS1=$PS1"${CYAN}"e
 fi
-PS1=$PS1"\]@\[${RED}\]\h:\[\e[0;35m\]\w\[\e[0m\]\$ "
+PS1=$PS1"\]@\[${RED}\]\h:\[\e[0;35m\]\w/\[\e[0m\] ^$ "
 }
 
 PROMPT_COMMAND=exitstatus
